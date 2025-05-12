@@ -1,0 +1,27 @@
+<%- include('../partials/header.ejs', {title: 'Home'}) %>
+
+<section class="hero">
+    <h2>Welcome to Our Community</h2>
+    <p>Join us in building a stronger community through engagement, events, and collaboration.</p>
+</section>
+
+<section class="upcoming-events">
+    <h3>Upcoming Events</h3>
+    <% if(upcomingEvents.length > 0) { %>
+        <div class="events-grid">
+            <% upcomingEvents.forEach(event => { %>
+                <div class="event-card">
+                    <h4><%= event.title %></h4>
+                    <p class="event-date"><strong>Date:</strong> <%= new Date(event.date).toLocaleDateString() %></p>
+                    <p class="event-location"><strong>Location:</strong> <%= event.location %></p>
+                    <p><%= event.description %></p>
+                </div>
+            <% }); %>
+        </div>
+        <p class="cta"><a href="/events">View All Events</a></p>
+    <% } else { %>
+        <p>No upcoming events at this time. Check back soon!</p>
+    <% } %>
+</section>
+
+<%- include('../partials/footer.ejs') %>
