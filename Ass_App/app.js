@@ -16,7 +16,12 @@ app.set('views', path.join(__dirname, 'views'));
 const teamMembers = [
   { name: 'John Doe', role: 'Developer', bio: 'Experienced web developer with focus on Node.js and Express.' },
   { name: 'Jane Smith', role: 'Designer', bio: 'Creative designer with a passion for user experience.' },
-  { name: 'Hayden Austin', role: 'Roll 5', bio: 'Just some dude' }
+  { name: 'Hayden Austin', role: 'Team Lead', bio: 'Just some dude' },
+  { name: 'Ken Aspeling', role: 'Editor', bio: 'Refines content into clear, compelling final form.'},
+  { name: 'Milienke Field', role: 'Organizer', bio: 'Plans flawlessly, ensuring smooth, unforgettable events.'},
+  { name: 'Shivaan Boodhoo', role: 'DJ', bio: 'Energizes crowds with seamless beats and vibrant energy.'},
+  { name: 'Ben Dover', role: 'Chair Management', bio: 'Chair'},
+  { name: 'Mike Oxlong', role: 'Head Chef', bio: 'Cooks food and looks good'}
 ];
 
 const events = [
@@ -40,6 +45,27 @@ const events = [
     location: 'Central Park', 
     image: '/images/festival.jpg',
     description: 'Annual summer festival with food, music, and activities for all ages.'
+  },
+  {
+    title: 'Artificial Intelligence Workshop', 
+    date: '2025-06-25', 
+    location: 'Tech Hub', 
+    image: '/images/ai.jpg',
+    description: 'Learn the basics of AI development with a hands-on workshop'
+  },
+  {
+    title: 'Q3 Check-In', 
+    date: '2025-07-10', 
+    location: 'City Hall', 
+    image: '/images/meetup.jpg',
+    description: 'Quarterly Check-In from the community to discuss local matters'
+  },
+  {
+    title: 'Winter Festival', 
+    date: '2025-12-10', 
+    location: 'City Lake', 
+    image: '/images/winter.jpg',
+    description: 'Annual winter festival with ice cream, music, and water fights for all ages.'
   }
 ];
 
@@ -48,7 +74,19 @@ const contactSubmissions = [];
 // Routes
 // Home
 app.get('/', (req, res) => {
-  const upcomingEvents = events.slice(0, 2);
+  let upcomingEvents = [];
+
+  //Adding all events for the current month
+
+  const currentDate = new Date();
+  const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+
+  events.forEach((event) => {
+    if ((event.date).slice(5,7) == currentMonth){
+      upcomingEvents.push(event);
+    }
+  });
+
   res.render('pages/index', { upcomingEvents });
 });
 
