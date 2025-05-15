@@ -2,8 +2,8 @@
 
 ## Overview
 
-Please note that the final assignment is located in the Ass_App folder
-Assigment one using a Node.js + Express + EJS website.
+Please note that the final assignment is located in the Ass_App folder.
+This assigment was developed using a Node.js + Express + EJS website.
 More specifically this project entailed server side routing (via the `routes/` directory, templating (in views), static assets, with the main app logic located in app.js.
 
 ## Instructions
