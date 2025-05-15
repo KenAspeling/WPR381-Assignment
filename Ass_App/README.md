@@ -9,7 +9,7 @@ More specifically this project entailed server side routing (via the `routes/` d
 ## Instructions
 git clone: https://github.com/KenAspeling/WPR381-Assignment.git
 
-###Navigate to directory:
+### Navigate to directory:
 cd WPR381-Assignment-main-->
 cd Ass_App
 run app with: node app.js
@@ -18,11 +18,11 @@ run app with: node app.js
 2. Use `npm run dev` to start the development server with nodemon.
 3. Add your own route handlers and middleware as needed.
 
-###Visit via your browser: http://localhost:3000
+### Visit via your browser: http://localhost:3000
 
-###Check Functionality: access routes or the views in the views/ folder
+### Check Functionality: access routes or the views in the views/ folder
 
-##Authors:
+## Authors:
 Hayden Austin 576530
 Ken Aspeling 600551
 Shivaan Boodhoo 601067
