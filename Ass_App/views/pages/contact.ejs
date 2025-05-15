@@ -3,9 +3,12 @@
 <section class="contact-section">
     <h2>Contact Us</h2>
     <p>Have questions or suggestions? We'd love to hear from you!</p>
-    
+
+    <!-- This div is to add a response message if there are issues -->
+    <div id="formResponse" class="response-message hidden"></div>
+
     <div class="contact-form-container">
-        <form action="/contact" method="POST" class="contact-form">
+        <form id="contactForm" method="POST" class="contact-form">
             <div class="form-group">
                 <label for="name">Your Name</label>
                 <input type="text" id="name" name="name" required>
@@ -24,6 +27,39 @@
             <button type="submit" class="btn submit-btn">Send Message</button>
         </form>
     </div>
+
+    <script>
+        //Listening for the submission
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            //Storing values on form into a struct
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+            
+            //fetching the post from app.js
+            try {
+                const response = await fetch('/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                //if it works then go to thank you page
+                if (response.ok) {
+                    window.location.href = '/thankyou';
+                } else { //else show error
+                    document.getElementById('formResponse').textContent = 'Failed to send message.';
+                }
+            } catch (error) {
+                console.error(error);
+                document.getElementById('formResponse').textContent = 'Error sending message.';
+            }
+        });
+    </script>
 </section>
 
 <%- include('../partials/footer.ejs') %>

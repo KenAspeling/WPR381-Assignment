@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const fs = require('fs/promises');
 
 const app = express();
 const port = 3000;
@@ -8,6 +9,7 @@ const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -69,8 +71,6 @@ const events = [
   }
 ];
 
-const contactSubmissions = [];
-
 // Routes
 // Home
 app.get('/', (req, res) => {
@@ -105,18 +105,57 @@ app.get('/contact', (req, res) => {
   res.render('pages/contact');
 });
 
-// Handle contact form submission
-app.post('/contact', (req, res) => {
-  const { name, email, message } = req.body;
-  contactSubmissions.push({ name, email, message, date: new Date() });
-  res.redirect('/thankyou');
-});
-
 // Thank you page
 app.get('/thankyou', (req, res) => {
   res.render('pages/thankyou');
 });
 
+//Submission on Contact Form
+app.post('/contact', async (req, res) => {
+  try {
+    //Get all the parameters
+    const {name, email, message} = req.body;
+
+    //Saving in new struct
+    const contactData = {
+      name,
+      email,
+      message,
+      date: new Date().toISOString()
+    };
+
+    const dataDir = path.join(__dirname, 'submit');
+
+    const filePath = path.join(dataDir, 'contacts.json');
+
+    //Make new array for the file
+    let contacts = [];
+
+    //Read the file and add all previous entries to the array
+    try {
+      const data = await fs.readFile(filePath, 'utf8');
+      const prevData = JSON.parse(data);
+      contacts.push(prevData);
+    } catch (error) {
+      contacts = [];
+    }
+
+    //Add new entry to array
+    contacts.push(contactData);
+
+    //Rewrite file
+    await fs.writeFile(filePath, JSON.stringify(contacts, null, 2));
+
+    //Return success to page
+    res.status(200).send({success: true})
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ success: false });
+  }
+
+});
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
+
